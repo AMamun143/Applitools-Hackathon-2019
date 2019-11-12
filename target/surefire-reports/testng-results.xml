@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="0" passed="0">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Hackathon.VisualAITests" duration-ms="0" started-at="2019-11-12T13:33:23 EST" finished-at="2019-11-12T13:33:23 EST">
+    <groups>
+    </groups>
+    <test name="Command line test" duration-ms="0" started-at="2019-11-12T13:33:23 EST" finished-at="2019-11-12T13:33:23 EST">
+    </test> <!-- Command line test -->
+  </suite> <!-- Hackathon.VisualAITests -->
+</testng-results>

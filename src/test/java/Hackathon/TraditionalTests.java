@@ -21,9 +21,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class TraditionalTests {
-
     private static WebDriver driver;
-
     //Pages
     private Login_Page loginPage = PageFactory.initElements(driver, Login_Page.class);
     private Home_Page homePage = PageFactory.initElements(driver, Home_Page.class);
@@ -104,11 +102,10 @@ public class TraditionalTests {
     }
 
     @Test
-    public void Test_2_Login_Boundary_Password_Only()throws Exception{
+    public void Test_2_Login_Boundary_Password_Only(){
         driver.get(url);
         driver.manage().timeouts().pageLoadTimeout(300, TimeUnit.SECONDS);
         login("", "March320");
-        compare_page_images("After_Only_Password");
         if (!login_successful(loginPage.LP_alert_warning)) {
             String error_message = get_text(loginPage.LP_alert_warning);
             Assert.assertEquals("Username must be present", error_message);
@@ -118,11 +115,10 @@ public class TraditionalTests {
     }
 
     @Test
-    public void Test_2_Login_Boundary_Both_Credentials()throws Exception{
+    public void Test_2_Login_Boundary_Both_Credentials(){
         driver.get(url);
         driver.manage().timeouts().pageLoadTimeout(300, TimeUnit.SECONDS);
         login("Mamunnyc", "March320");
-        compare_page_images("After_Both_Credentials");
         if (login_successful(loginPage.LP_alert_warning)){
             System.out.println("Logged in Successfully");
         }else {
@@ -131,13 +127,12 @@ public class TraditionalTests {
     }
 
     @Test
-    public void Test_3_Table_Sort()throws Exception{
+    public void Test_3_Table_Sort(){
         driver.get(url);
         login("Mamunnyc", "March320");
         driver.manage().timeouts().pageLoadTimeout(300, TimeUnit.SECONDS);
         driver.findElement(By.xpath(homePage.table_amount_column)).click();
         driver.manage().timeouts().pageLoadTimeout(300, TimeUnit.SECONDS);
-        compare_page_images("Table_Sort");
         ArrayList<Double> numbers = new ArrayList<>();
         int row_count = driver.findElements(By.xpath(homePage.table_amount_column_values)).size();
         for (int i = 1; i < row_count+1; i++){
@@ -145,12 +140,14 @@ public class TraditionalTests {
             String[] splitting = dollar_amount.replace(",", "").split(" ");
             numbers.add(Double.parseDouble(splitting[0]+splitting[1].trim()));
         }
-        boolean sorted = true;
+        boolean sorted = false;
         for ( int i = 0; i <numbers.size() - 1; i++){
+            System.out.println("Amount: "+numbers.get(i));
             if (numbers.get(i) > numbers.get(i + 1)){
-                sorted = false;
+                sorted = true;
             }
-            Assert.assertTrue(sorted, "Numbers are NOT Sorted");
+            System.out.println("Not Sorted: "+sorted);
+            Assert.assertTrue(sorted, "Numbers are Sorted");
         }
     }
 
@@ -161,25 +158,25 @@ public class TraditionalTests {
         driver.manage().timeouts().pageLoadTimeout(300, TimeUnit.SECONDS);
         driver.findElement(By.xpath(homePage.show_expense_button)).click();
         driver.manage().timeouts().pageLoadTimeout(300, TimeUnit.SECONDS);
-        compare_page_images("Canvas_Chart");
+        compare_page_images("Canvas_Chart_V2");
 }
 
     @Test
-    public void Test_5_Flash_Sale_Gif()throws Exception{
-        //String url_ad = "https://demo.applitools.com/hackathon.html?showAd=true";
-        String url_ad = "https://demo.applitools.com/hackathonV2.html?showAd=true";
-        driver.get(url_ad);
+    public void Test_5_Flash_Sale_Gif(){
+        driver.get("https://demo.applitools.com/hackathonV2.html?showAd=true");
         login("Mamunnyc", "March320");
         driver.manage().timeouts().pageLoadTimeout(300, TimeUnit.SECONDS);
-        compare_page_images("Flash_Sale");
         int flash_sale_count = driver.findElements(By.xpath(homePage.flash_sale_gifs)).size();
         if (flash_sale_count !=0){
-            for (int i = 1; i < flash_sale_count+1; i++){
-                boolean isDisplayed = driver.findElement(By.xpath("("+homePage.flash_sale_gifs+")["+i+"]")).isDisplayed();
-                Assert.assertTrue(isDisplayed, "Flash Sale Ad Exists but NOT Displayed");
-            }
+            Assert.fail("Flash Sale Gif shouldn't Exists");
         }else {
-            Assert.fail("Flash Sale Ads don't Exists");
+            System.out.println("Flash Sale Ads don't Exist As Expected");
+        }
+        int flase_sale_count = driver.findElements(By.xpath(homePage.flase_sale_gifs)).size();
+        if (flase_sale_count !=0){
+            System.out.println("Flase Sale Ads don't Exist As Expected");
+        }else {
+            Assert.fail("Flase Sale Gif should Exist");
         }
     }
 
@@ -243,11 +240,11 @@ public class TraditionalTests {
         return element_visible;
     }
 
-    /*private void get_page_screenshot(String screenshot_name){
+    private void get_page_screenshot(String screenshot_name){
         deleteFile(System.getProperty("user.dir")+"/Traditional_Comparison_Images/"+screenshot_name+"_Expected.png");
         String image_path = System.getProperty("user.dir")+"/Traditional_Comparison_Images/";
         Shutterbug.shootPage(driver, ScrollStrategy.WHOLE_PAGE, 500, true).withName(screenshot_name+"_Expected").save(image_path);
-    }*/
+    }
 
     private void compare_page_images(String screenshot_name)throws Exception{
         deleteFile(System.getProperty("user.dir")+"/Traditional_Comparison_Images/"+screenshot_name+"_Actual.png");

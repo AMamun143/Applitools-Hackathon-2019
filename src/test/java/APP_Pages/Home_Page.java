@@ -6,4 +6,5 @@ public class Home_Page {
     public String table_amount_column_values = "//tr/td[@class='text-right bolder nowrap']";
     public String show_expense_button = "//a[@id='showExpensesChart']";
     public String flash_sale_gifs =  "//*[contains(@src, 'flash')]";
+    public String flase_sale_gifs =  "//*[contains(@src, 'flase')]";
 }

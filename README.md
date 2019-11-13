@@ -1,6 +1,6 @@
 # Applitools-Hackathon-2019
 
-**All the Necessary resources are built with the project therefore it's ready to run after cloning the Repository into local.** 
+**All the Necessary resources are built within the project therefore it's ready to run after cloning the Repository into local.** 
 **Make sure local environments are set for Maven and java 8 for Selenium.**
 
 1. Designed Tests using V1 url
